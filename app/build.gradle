@@ -33,15 +33,27 @@ android {
 }
 
 ext {
+    // Android
     supportLibraryVersion = '25.1.0'
+
+    // Libraries
     daggerVersion = '2.8'
     rxAndroidVersion = '1.2.1'
     rxJavaVersion = '1.2.4'
     retrofitVersion = '2.1.0'
     gsonVersion = '2.8.0'
-    timberVersion = '4.4.0'
     eventBusVersion = '3.0.0'
     okHttpVersion = '3.5.0'
+    threeTenAbpVersion = '1.0.4'
+
+    // Develop
+    timberVersion = '4.4.0'
+    leakCanaryVersion = '1.5'
+
+    // Testing
+    mockitoVersion = '2.5.5'
+    robolectricVersion = '3.2.1'
+
 }
 
 dependencies {
@@ -65,16 +77,26 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     // gson : json conversion library
     compile "com.google.code.gson:gson:${gsonVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     // Timber : logging library
     compile "com.jakewharton.timber:timber:${timberVersion}"
     // Eventbus
     compile "org.greenrobot:eventbus:${eventBusVersion}"
+    // ThreeTenABP : JSR-310 backport for android
+    compile "com.jakewharton.threetenabp:threetenabp:${threeTenAbpVersion}"
+
+    // LeakCanary : memory leak detection
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
 
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
+    testCompile "org.robolectric:robolectric:${robolectricVersion}"
 }
 
 // Dagger workaround

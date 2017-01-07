@@ -1,6 +1,4 @@
-package io.github.a0gajun.esareader.data.entity;
-
-import com.google.gson.annotations.SerializedName;
+package io.github.a0gajun.esareader.domain.model;
 
 import org.threeten.bp.ZonedDateTime;
 
@@ -10,74 +8,31 @@ import java.util.List;
  * Created by Junya on 1/6/17.
  */
 
-public class PostEntity {
-    @SerializedName("number")
+public class Post {
     private int postNumber;
-
-    @SerializedName("name")
     private String title;
-
-    @SerializedName("tags")
     private List<String> tags;
-
-    @SerializedName("category")
     private String category;
-
-    @SerializedName("full_name")
     private String fullName;
-
-    @SerializedName("wip")
     private boolean isWip;
-
-    @SerializedName("body_md")
     private String mdBody;
-
-    @SerializedName("body_html")
     private String htmlBody;
-
-    @SerializedName("created_at")
     private ZonedDateTime createdAt;
-
-    @SerializedName("updated_at")
     private ZonedDateTime updatedAt;
-
-    @SerializedName("message")
     private String updateMessage;
-
-    @SerializedName("revision_number")
     private int revisionNumber;
-
-    @SerializedName("created_by")
-    private UserEntity createdBy;
-
-    @SerializedName("updated_by")
-    private UserEntity updatedBy;
-
-    @SerializedName("kind")
+    private User createdBy;
+    private User updatedBy;
     private String kind;
-
-    @SerializedName("comments_count")
     private int commentsCount;
-
-    @SerializedName("tasks_count")
     private int tasksCount;
-
-    @SerializedName("done_tasks_count")
     private int doneTasksCount;
-
-    @SerializedName("stargazers_count")
     private int stargazersCount;
-
-    @SerializedName("watchers_count")
     private int watchersCount;
-
-    @SerializedName("star")
     private boolean isStared;
-
-    @SerializedName("watch")
     private boolean isWatching;
 
-    public PostEntity() {
+    public Post() {
     }
 
     public int getPostNumber() {
@@ -176,19 +131,19 @@ public class PostEntity {
         this.revisionNumber = revisionNumber;
     }
 
-    public UserEntity getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(UserEntity createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
-    public UserEntity getUpdatedBy() {
+    public User getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(UserEntity updatedBy) {
+    public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
     }
 
