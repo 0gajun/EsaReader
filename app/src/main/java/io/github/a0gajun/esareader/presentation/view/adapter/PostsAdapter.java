@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,6 +20,7 @@ import javax.inject.Inject;
 import io.github.a0gajun.esareader.R;
 import io.github.a0gajun.esareader.databinding.LayoutPostListRowBinding;
 import io.github.a0gajun.esareader.domain.model.Post;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Junya on 1/8/17.
@@ -43,7 +47,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.BindingHolde
     public void onBindViewHolder(BindingHolder holder, final int position) {
         final Post post = postList.get(position);
         holder.getBinding().setPost(post);
-        //TODO: load image
+
+        final ImageView avatarImg = holder.getBinding().avatarImg;
+        Glide.with(avatarImg.getContext())
+                .load(post.getCreatedBy().getIconUrl())
+                .bitmapTransform(new CropCircleTransformation(avatarImg.getContext()))
+                .into(avatarImg);
     }
 
     @Override
