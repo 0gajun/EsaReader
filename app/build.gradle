@@ -21,7 +21,15 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField "String", "ESA_ACCESS_TOKEN", "\"${project.property("esaAccessToken")}\""
+            buildConfigField "String", "ESA_TEAM_NAME", "\"${project.property("esaTeamName")}\""
+        }
+
         release {
+            buildConfigField "String", "ESA_ACCESS_TOKEN", "\"${project.property("esaAccessToken")}\""
+            buildConfigField "String", "ESA_TEAM_NAME", "\"${project.property("esaTeamName")}\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
