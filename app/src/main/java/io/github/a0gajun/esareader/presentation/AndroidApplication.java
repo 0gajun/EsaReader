@@ -8,8 +8,8 @@ import com.squareup.leakcanary.LeakCanary;
 import io.github.a0gajun.esareader.BuildConfig;
 import io.github.a0gajun.esareader.presentation.di.component.ApplicationComponent;
 import io.github.a0gajun.esareader.presentation.di.component.DaggerApplicationComponent;
-import io.github.a0gajun.esareader.presentation.di.component.NetComponent;
 import io.github.a0gajun.esareader.presentation.di.module.ApplicationModule;
+import io.github.a0gajun.esareader.presentation.di.module.NetModule;
 import timber.log.Timber;
 
 /**
@@ -18,7 +18,6 @@ import timber.log.Timber;
 
 public class AndroidApplication extends Application {
     private ApplicationComponent applicationComponent;
-    private NetComponent netComponent;
 
     @Override
     public void onCreate() {
@@ -31,6 +30,7 @@ public class AndroidApplication extends Application {
 
     private void initializeInjector() {
         this.applicationComponent = DaggerApplicationComponent.builder()
+                .netModule(new NetModule(BuildConfig.ESA_END_POINT))
                 .applicationModule(new ApplicationModule(this))
                 .build();
     }
