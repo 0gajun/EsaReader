@@ -85,11 +85,12 @@ dependencies {
     compile "io.reactivex:rxjava:${rxJavaVersion}"
     // Retrofit : REST library
     compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
     // OkHttp : Networking library
     compile "com.squareup.okhttp3:okhttp:${okHttpVersion}"
     // gson : json conversion library
     compile "com.google.code.gson:gson:${gsonVersion}"
-    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     // Timber : logging library
     compile "com.jakewharton.timber:timber:${timberVersion}"
     // Eventbus

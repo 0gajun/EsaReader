@@ -21,6 +21,7 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
@@ -84,6 +85,7 @@ public class NetModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
@@ -92,12 +94,8 @@ public class NetModule {
     @Singleton
     @Provides
     @Named("esa_retrofit")
-    Retrofit provideEsaRetrofit(Gson gson, @Named("esa_okhttp_client") OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient)
-                .build();
+    Retrofit provideEsaRetrofit(Gson gson, @Named("esa_okhttp_client") OkHttpClient esaOkHttpClient) {
+        return this.provideRetrofit(gson, esaOkHttpClient);
     }
 
     @Singleton

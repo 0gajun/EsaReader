@@ -13,6 +13,7 @@ import io.github.a0gajun.esareader.domain.model.Post;
 import io.github.a0gajun.esareader.domain.usecase.DefaultSubscriber;
 import io.github.a0gajun.esareader.domain.usecase.PaginatedUseCase;
 import io.github.a0gajun.esareader.presentation.view.PostListView;
+import timber.log.Timber;
 
 /**
  * Created by Junya on 1/8/17.
@@ -83,6 +84,12 @@ public class PostListPresenter implements Presenter {
     }
 
     private final class PostListSubscriber extends DefaultSubscriber<List<Post>> {
+        @Override
+        public void onError(Throwable e) {
+            Timber.e(e);
+            super.onError(e);
+        }
+
         @Override
         public void onNext(List<Post> posts) {
             PostListPresenter.this.addAllPostCollection(posts);

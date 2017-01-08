@@ -13,9 +13,9 @@ import rx.Observable;
 
 public interface EsaApi {
 
-    @GET("/v1/teams/{team}/posts")
+    @GET("v1/teams/{team}/posts")
     Observable<PostsEntity> getPosts(@Path("team") String team, @Query("page") int pageIndex);
 
-    @GET("/v1/teams/{team}/posts/{post_number}")
+    @GET("v1/teams/{team}/posts/{post_number}")
     Observable<PostEntity> getPost(@Path("team") String team, @Path("post_number") int post_number);
 }
