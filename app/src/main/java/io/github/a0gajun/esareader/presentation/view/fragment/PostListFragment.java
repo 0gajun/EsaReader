@@ -1,7 +1,9 @@
 package io.github.a0gajun.esareader.presentation.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -27,12 +29,25 @@ import io.github.a0gajun.esareader.presentation.view.presenter.PostListPresenter
 public class PostListFragment extends BaseFragment
         implements PostListView {
 
+    public interface PostListListener {
+        void onPostClicked(final Post post);
+    }
+
     private FragmentPostListBinding binding;
+    private PostListListener postListListener;
 
     @Inject
     PostListPresenter postListPresenter;
     @Inject
     PostsAdapter postsAdapter;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PostListListener) {
+            this.postListListener = (PostListListener) context;
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,8 +58,7 @@ public class PostListFragment extends BaseFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_post_list, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_post_list, container, false);
     }
 
     @Override
@@ -78,6 +92,12 @@ public class PostListFragment extends BaseFragment
         this.postListPresenter.destroy();
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.postListListener = null;
+    }
+
     private void loadPostList() {
         this.postListPresenter.initialize();
     }
@@ -90,12 +110,26 @@ public class PostListFragment extends BaseFragment
         this.postsAdapter.setPostsCollection(postCollection);
     }
 
+    @Override
+    public void viewPost(Post post) {
+        if (this.postListListener != null) {
+            this.postListListener.onPostClicked(post);
+        }
+    }
+
     private Context context() {
         return this.getActivity().getApplicationContext();
     }
 
     private void setUpRecyclerView() {
         this.binding.rvPosts.setLayoutManager(new LinearLayoutManager(context()));
+        postsAdapter.setOnItemClickListener(this.onItemClickListener);
         this.binding.rvPosts.setAdapter(postsAdapter);
     }
+
+    private PostsAdapter.OnItemClickListener onItemClickListener = post -> {
+        if (this.postListListener != null && post != null) {
+            this.postListListener.onPostClicked(post);
+        }
+    };
 }

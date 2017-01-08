@@ -28,8 +28,14 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.BindingHolder> {
 
+    public interface OnItemClickListener {
+        void onPostItemClicked(Post post);
+    }
+
     private List<Post> postList;
     private final LayoutInflater layoutInflater;
+
+    private OnItemClickListener onItemClickListener;
 
     @Inject
     public PostsAdapter(Context context) {
@@ -53,6 +59,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.BindingHolde
                 .load(post.getCreatedBy().getIconUrl())
                 .bitmapTransform(new CropCircleTransformation(avatarImg.getContext()))
                 .into(avatarImg);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (PostsAdapter.this.onItemClickListener != null) {
+                PostsAdapter.this.onItemClickListener.onPostItemClicked(post);
+            }
+        });
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.onItemClickListener = null;
     }
 
     @Override
@@ -63,6 +81,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.BindingHolde
     public void setPostsCollection(Collection<Post> postsCollection) {
         this.postList = (List<Post>) postsCollection;
         this.notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     static final class BindingHolder extends RecyclerView.ViewHolder {
